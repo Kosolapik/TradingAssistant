@@ -11,5 +11,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Core\Core.csproj" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Services\" />
+	  <Folder Include="DTOs\" />
+	</ItemGroup>
 
 </Project>

@@ -8,4 +8,8 @@
 	<RootNamespace>TradingAssistant.Core</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
 </Project>
