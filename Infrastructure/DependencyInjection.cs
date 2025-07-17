@@ -1,6 +1,4 @@
-﻿// Infrastructure/DependencyInjection.cs
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TradingAssistant.Infrastructure.DataBase.MySQL;
 

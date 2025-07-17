@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-
 namespace TradingAssistant.Infrastructure.DataBase.MySQL;
 
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
