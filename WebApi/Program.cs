@@ -31,11 +31,4 @@ app.MapGet("/exchanges", async ([FromServices] AppDbContext dbContext) =>
     return Results.Ok(exchanges);
 });
 
-app.MapPost("/exchanges", async ([FromServices] AppDbContext dbContext, Exchange exchange) =>
-{
-    dbContext.Exchanges.Add(exchange);
-    await dbContext.SaveChangesAsync();
-    return Results.Created($"/exchanges/{exchange.Id}", exchange);
-});
-
 app.Run();
