@@ -1,43 +1,41 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TradingAssistant.Core.Entities;
 using TradingAssistant.Infrastructure;
+using TradingAssistant.Infrastructure.DataBase.MySQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Добавляем сервисы Infrastructure (БД)
+builder.Services.AddInfrastructure();
+
+// Настройка OpenAPI
+builder.Services.AddOpenApi();  // Аналог AddSwaggerGen() в .NET 9
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Включаем OpenAPI в Development
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi();  // Аналог UseSwaggerUI() в .NET 9
 }
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// Ваши эндпоинты
+app.MapGet("/", () => "TradingAssistant API is running!");
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/exchanges", async ([FromServices] AppDbContext dbContext) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    var exchanges = await dbContext.Exchanges.ToListAsync();
+    return Results.Ok(exchanges);
+});
+
+app.MapPost("/exchanges", async ([FromServices] AppDbContext dbContext, Exchange exchange) =>
+{
+    dbContext.Exchanges.Add(exchange);
+    await dbContext.SaveChangesAsync();
+    return Results.Created($"/exchanges/{exchange.Id}", exchange);
+});
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
