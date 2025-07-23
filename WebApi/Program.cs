@@ -1,9 +1,12 @@
+using Binance.Net.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TradingAssistant.Core.Entities;
 using TradingAssistant.Infrastructure;
 using TradingAssistant.Infrastructure.DataBase.MySQL;
+using TradingAssistant.Infrastructure.Exchanges.ByBit;
+using TradingAssistant.Infrastructure.Exchanges.Binance;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,12 +32,48 @@ app.UseSwaggerUI(c =>
 app.UseHttpsRedirection();
 
 // Ваши эндпоинты
-app.MapGet("/", () => "TradingAssistant API is running!");
-
-app.MapGet("/exchanges", async ([FromServices] AppDbContext dbContext) =>
+app.MapGet("/binance-test", async ([FromServices] IBinanceClient symbolService) =>
 {
-    var exchanges = await dbContext.Exchanges.ToListAsync();
-    return Results.Ok(exchanges);
+    try
+    {
+        var symbols = await symbolService.GetSpotSymbolsAsync(null, "USDT");
+
+        return symbols.Any()
+            ? Results.Ok(new
+            {
+                Count = symbols.Count,
+                Symbols = symbols
+            })
+            : Results.NotFound("Активные торговые пары не найдены");
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(
+            detail: $"Ошибка при получении списка символов: {ex.Message}",
+            statusCode: StatusCodes.Status500InternalServerError);
+    }
+});
+
+app.MapGet("/bybit-test", async ([FromServices] IByBitClient symbolService) =>
+{
+    try
+    {
+        var symbols = await symbolService.GetSpotSymbolsAsync(null, "USDT");
+
+        return symbols.Any()
+            ? Results.Ok(new
+            {
+                Count = symbols.Count,
+                Symbols = symbols
+            })
+            : Results.NotFound("Активные торговые пары не найдены");
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(
+            detail: $"Ошибка при получении списка символов: {ex.Message}",
+            statusCode: StatusCodes.Status500InternalServerError);
+    }
 });
 
 app.Run();
