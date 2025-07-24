@@ -3,7 +3,6 @@ using Binance.Net.Interfaces;
 using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Objects;
-using TradingAssistant.Core.Interfaces;
 
 namespace TradingAssistant.Infrastructure.Exchanges
 {

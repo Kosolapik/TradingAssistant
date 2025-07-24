@@ -1,5 +1,4 @@
-﻿using Binance.Net.Objects.Models.Spot;
-using Bybit.Net.Clients;
+﻿using Bybit.Net.Clients;
 using Bybit.Net.Enums;
 using Bybit.Net.Interfaces;
 using Bybit.Net.Objects.Models.V5;
