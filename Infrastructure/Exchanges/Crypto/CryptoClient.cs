@@ -1,16 +1,8 @@
 ﻿using CryptoClients.Net;
-using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.SharedApis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using TradingAssistant.Core.Entities;
 
 namespace TradingAssistant.Infrastructure.Exchanges.Crypto
 {

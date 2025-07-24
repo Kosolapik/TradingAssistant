@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TradingAssistant.Infrastructure.DataBase.MySQL;
-using TradingAssistant.Infrastructure.Exchanges.Binance;
-using TradingAssistant.Infrastructure.Exchanges.ByBit;
 using TradingAssistant.Infrastructure.Exchanges.Crypto;
 
 namespace TradingAssistant.Infrastructure;
@@ -22,9 +20,7 @@ public static class DependencyInjection
             )
         );
 
-        // Регистрация Binance клиента
-        services.AddSingleton<IBinanceClient, BinanceClient>();
-        services.AddSingleton<IByBitClient, ByBitClient>();
+        // Регистрация Crypto клиента
         services.AddSingleton<ICryptoClient, CryptoClient>();
 
         // Регистрация репозиториев (если есть)
