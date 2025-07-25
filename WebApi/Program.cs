@@ -1,8 +1,10 @@
 using CryptoExchange.Net.SharedApis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using TradingAssistant.Core.Entities;
 using TradingAssistant.Infrastructure;
 using TradingAssistant.Infrastructure.Exchanges.Crypto;
+using XT.Net.Objects.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,11 +42,11 @@ app.MapGet("/crypto-test/{exchange:alpha}/{type:alpha}", async ([FromServices] I
             _ => throw new NotSupportedException($"Unsupported trading type: {type}")
         };
 
-        return symbols.Success
+        return symbols != null
             ? Results.Ok(new
             {
-                Count = symbols.Data.Length,
-                Symbols = symbols.Data
+                Count = symbols.Length,
+                Symbols = symbols,
             })
             : Results.NotFound("Активные торговые пары не найдены");
     }

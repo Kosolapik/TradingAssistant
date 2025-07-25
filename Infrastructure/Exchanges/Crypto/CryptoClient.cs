@@ -1,4 +1,5 @@
-﻿using CryptoClients.Net;
+﻿using Binance.Net.Objects.Models.Spot.Convert;
+using CryptoClients.Net;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
@@ -26,36 +27,18 @@ namespace TradingAssistant.Infrastructure.Exchanges.Crypto
             );
         }
 
-        public async Task<ExchangeWebResult<SharedSpotSymbol[]>> GetSpotSymbolsAsync(string exchange)
+        public async Task<SharedSpotSymbol[]> GetSpotSymbolsAsync(string exchange)
         {
             var request = new GetSymbolsRequest(TradingMode.Spot);
             var result = await _client.GetSpotSymbolsAsync(exchange, request);
-
-            var groupedResult = new Dictionary<string, List<object>>();
-
-            // Проверяем успешность запроса и наличие данных
-            if (!result.Success || result.Data == null)
-            {
-                return result; // Возвращаем пустой словарь в случае ошибки
-            }
-
-            return result;
+            return result.Data.Where(s => s.QuoteAsset == "USDT").ToArray();
         }
 
-        public async Task<ExchangeWebResult<SharedFuturesSymbol[]>> GetFuturesSymbolsAsync(string exchange)
+        public async Task<SharedFuturesSymbol[]> GetFuturesSymbolsAsync(string exchange)
         {
             var request = new GetSymbolsRequest(TradingMode.PerpetualLinear);
             var result = await _client.GetFuturesSymbolsAsync(exchange, request);
-
-            var groupedResult = new Dictionary<string, List<object>>();
-
-            // Проверяем успешность запроса и наличие данных
-            if (!result.Success || result.Data == null)
-            {
-                return result; // Возвращаем пустой словарь в случае ошибки
-            }
-
-            return result;
+            return result.Data.Where(s => s.QuoteAsset == "USDT").ToArray();
         }
     }
 }
