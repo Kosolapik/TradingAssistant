@@ -1,3 +1,4 @@
+using CryptoExchange.Net.SharedApis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using TradingAssistant.Infrastructure;
@@ -28,17 +29,22 @@ app.UseHttpsRedirection();
 
 // Ваши эндпоинты
 
-app.MapGet("/crypto-test/{exchange:alpha}", async ([FromServices] ICryptoClient client, [FromRoute] string exchange) =>
+app.MapGet("/crypto-test/{exchange:alpha}/{type:alpha}", async ([FromServices] ICryptoClient client, [FromRoute] string exchange, [FromRoute] string type) =>
 {
     try
     {
-        var symbols = await client.GetSpotSymbolsAsync(exchange);
+        var symbols = type.ToLower() switch
+        {
+            "spot" or "spots" => (dynamic)await client.GetSpotSymbolsAsync(exchange),
+            "future" or "futures" => (dynamic)await client.GetFuturesSymbolsAsync(exchange),
+            _ => throw new NotSupportedException($"Unsupported trading type: {type}")
+        };
 
-        return symbols.Any()
+        return symbols.Success
             ? Results.Ok(new
             {
-                Count = symbols.Count,
-                Symbols = symbols
+                Count = symbols.Data.Length,
+                Symbols = symbols.Data
             })
             : Results.NotFound("Активные торговые пары не найдены");
     }

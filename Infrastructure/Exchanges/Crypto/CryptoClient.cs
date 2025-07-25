@@ -26,7 +26,7 @@ namespace TradingAssistant.Infrastructure.Exchanges.Crypto
             );
         }
 
-        public async Task<Dictionary<string, List<object>>> GetSpotSymbolsAsync(string exchange)
+        public async Task<ExchangeWebResult<SharedSpotSymbol[]>> GetSpotSymbolsAsync(string exchange)
         {
             var request = new GetSymbolsRequest(TradingMode.Spot);
             var result = await _client.GetSpotSymbolsAsync(exchange, request);
@@ -36,22 +36,26 @@ namespace TradingAssistant.Infrastructure.Exchanges.Crypto
             // Проверяем успешность запроса и наличие данных
             if (!result.Success || result.Data == null)
             {
-                return groupedResult; // Возвращаем пустой словарь в случае ошибки
+                return result; // Возвращаем пустой словарь в случае ошибки
             }
 
-            foreach (var symbol in result.Data)
+            return result;
+        }
+
+        public async Task<ExchangeWebResult<SharedFuturesSymbol[]>> GetFuturesSymbolsAsync(string exchange)
+        {
+            var request = new GetSymbolsRequest(TradingMode.PerpetualLinear);
+            var result = await _client.GetFuturesSymbolsAsync(exchange, request);
+
+            var groupedResult = new Dictionary<string, List<object>>();
+
+            // Проверяем успешность запроса и наличие данных
+            if (!result.Success || result.Data == null)
             {
-
-                groupedResult[symbol.Name] = new List<object>();
-                groupedResult[symbol.Name].Add(new
-                {
-                    Pair = symbol.Name,
-                    BaseAsset = symbol.BaseAsset,
-                    QuoteAsset = symbol.QuoteAsset,
-                });
+                return result; // Возвращаем пустой словарь в случае ошибки
             }
 
-            return groupedResult;
+            return result;
         }
     }
 }
