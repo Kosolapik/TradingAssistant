@@ -1,10 +1,6 @@
-using CryptoExchange.Net.SharedApis;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using TradingAssistant.Core.Entities;
 using TradingAssistant.Infrastructure;
-using TradingAssistant.Infrastructure.Exchanges.Crypto;
-using XT.Net.Objects.Models;
+using TradingAssistant.WebApi.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,32 +26,7 @@ app.UseSwaggerUI(c =>
 app.UseHttpsRedirection();
 
 // Ваши эндпоинты
-
-app.MapGet("/crypto-test/{exchange:alpha}/{type:alpha}", async ([FromServices] ICryptoClient client, [FromRoute] string exchange, [FromRoute] string type) =>
-{
-    try
-    {
-        var symbols = type.ToLower() switch
-        {
-            "spot" or "spots" => (dynamic)await client.GetSpotSymbolsAsync(exchange),
-            "future" or "futures" => (dynamic)await client.GetFuturesSymbolsAsync(exchange),
-            _ => throw new NotSupportedException($"Unsupported trading type: {type}")
-        };
-
-        return symbols != null
-            ? Results.Ok(new
-            {
-                Count = symbols.Length,
-                Symbols = symbols,
-            })
-            : Results.NotFound("Активные торговые пары не найдены");
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem(
-            detail: $"Ошибка при получении списка символов: {ex.Message}",
-            statusCode: StatusCodes.Status500InternalServerError);
-    }
-});
+app.MapAdminEndpoints();
+app.MapUserEndpoints();
 
 app.Run();
