@@ -8,6 +8,4 @@ public class Timeframe
 
     // Навигационные свойства
     public ICollection<OhlcvData> OhlcvData { get; set; } = new List<OhlcvData>();
-
-    public string GetTimeframeString() => $"{Value}{Unit[0]}"; // 1m, 5m, 1h
 }

@@ -15,10 +15,10 @@
 	
 	<ItemGroup>
 	  <Folder Include="DTOs\" />
-	  <Folder Include="Services\Admin\Queries\" />
-	  <Folder Include="Services\Admin\Comands\" />
-	  <Folder Include="Services\User\Comands\" />
-	  <Folder Include="Services\User\Queries\" />
+	  <Folder Include="Services\Exchange\Queries\" />
+	  <Folder Include="Services\Exchange\Comands\" />
+	  <Folder Include="Services\App\Comands\" />
+	  <Folder Include="Services\App\Queries\" />
 	</ItemGroup>
 
 </Project>

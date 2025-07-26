@@ -5,7 +5,5 @@ public class Exchange
     public int Id { get; set; }
     public string Name { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    // Навигационные свойства
-    public ICollection<OhlcvData> OhlcvData { get; set; } = new List<OhlcvData>();
+    public ICollection<Symbol> Symbols { get; set; } = new List<Symbol>();
 }

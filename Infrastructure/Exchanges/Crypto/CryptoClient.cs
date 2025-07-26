@@ -31,14 +31,14 @@ namespace TradingAssistant.Infrastructure.Exchanges.Crypto
         {
             var request = new GetSymbolsRequest(TradingMode.Spot);
             var result = await _client.GetSpotSymbolsAsync(exchange, request);
-            return result.Data.Where(s => s.QuoteAsset == "USDT").ToArray();
+            return result.Data.Where(s => s.QuoteAsset == "USDT" && s.Trading == true).ToArray();
         }
 
         public async Task<SharedFuturesSymbol[]> GetFuturesSymbolsAsync(string exchange)
         {
             var request = new GetSymbolsRequest(TradingMode.PerpetualLinear);
             var result = await _client.GetFuturesSymbolsAsync(exchange, request);
-            return result.Data.Where(s => s.QuoteAsset == "USDT").ToArray();
+            return result.Data.Where(s => s.QuoteAsset == "USDT" && s.Trading == true).ToArray();
         }
     }
 }

@@ -3,9 +3,9 @@
 public class MarketType
 {
     public int Id { get; set; }
-    public string Type { get; set; }  // spot, perpetual, futures
+    public string Type { get; set; }  // Spot, PerpetualLinear и т.д.
     public string? Description { get; set; }
 
-    // Навигационные свойства
-    public ICollection<OhlcvData> OhlcvData { get; set; } = new List<OhlcvData>();
+    // Связь только с Symbol
+    public ICollection<Symbol> Symbols { get; set; } = new List<Symbol>();
 }
