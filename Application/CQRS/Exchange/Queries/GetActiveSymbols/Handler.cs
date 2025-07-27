@@ -2,7 +2,6 @@
 using MediatR;
 using TradingAssistant.Core.Interfaces.Repositories;
 using TradingAssistant.Infrastructure.Exchanges.Crypto;
-using TradingAssistant.Infrastructure.Repositories;
 
 namespace TradingAssistant.Application.CQRS.Exchange.Queries.GetActiveSymbols;
 

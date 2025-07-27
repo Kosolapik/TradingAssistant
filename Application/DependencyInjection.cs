@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TradingAssistant.Infrastructure.Exchanges.Crypto;
 using TradingAssistant.Application.CQRS.Exchange.Queries.GetActiveSymbols;
 using TradingAssistant.Infrastructure;
 
@@ -13,8 +12,7 @@ public static class DependencyInjection
     {
         services.AddInfrastructure();
 
-        services.AddMediatR(cfg =>
-        cfg.RegisterServicesFromAssembly(typeof(Query).Assembly));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Query).Assembly));
 
         return services;
     }

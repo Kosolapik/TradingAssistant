@@ -1,6 +1,4 @@
-﻿
-
-using CryptoExchange.Net.SharedApis;
+﻿using CryptoExchange.Net.SharedApis;
 
 namespace TradingAssistant.Infrastructure.Exchanges.Crypto
 {
