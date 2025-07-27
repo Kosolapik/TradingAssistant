@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TradingAssistant.Core.Interfaces.Repositories;
 using TradingAssistant.Infrastructure.DataBase.MySQL;
 using TradingAssistant.Infrastructure.Exchanges.Crypto;
+using TradingAssistant.Infrastructure.Repositories;
 
 namespace TradingAssistant.Infrastructure;
 
@@ -24,7 +26,8 @@ public static class DependencyInjection
         services.AddSingleton<ICryptoClient, CryptoClient>();
 
         // Регистрация репозиториев (если есть)
-        // services.AddScoped<ITradeRepository, TradeRepository>();
+        services.AddScoped<IExchangeRepository, ExchangeRepository>();
+        services.AddScoped<IMarketTypeRepository, MarketTypeRepository>();
 
         return services;
     }

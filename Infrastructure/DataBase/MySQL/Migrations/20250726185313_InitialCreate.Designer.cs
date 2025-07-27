@@ -11,7 +11,7 @@ using TradingAssistant.Infrastructure.DataBase.MySQL;
 namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250726184816_InitialCreate")]
+    [Migration("20250726185313_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

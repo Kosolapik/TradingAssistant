@@ -1,11 +1,11 @@
 using Microsoft.OpenApi.Models;
-using TradingAssistant.Infrastructure;
+using TradingAssistant.Application;
 using TradingAssistant.WebApi.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Добавляем сервисы Infrastructure (БД)
-builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
 
 // Настройка OpenAPI/Swagger
 builder.Services.AddEndpointsApiExplorer();

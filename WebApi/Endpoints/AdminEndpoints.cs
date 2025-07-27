@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TradingAssistant.Infrastructure.Exchanges.Crypto;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using TradingAssistant.Application.CQRS.Exchange.Queries.GetActiveSymbols;
 
 namespace TradingAssistant.WebApi.Endpoints
 {
@@ -11,33 +12,15 @@ namespace TradingAssistant.WebApi.Endpoints
 
             adminGroup.MapGet(
                 "/crypto-test/{exchange:alpha}/{type:alpha}",
-                async ([FromServices] ICryptoClient client, [FromRoute] string exchange, [FromRoute] string type) =>
+                async (
+                    [FromServices] IMediator mediator,
+                    [FromRoute] string exchange,
+                    [FromRoute] string type) =>
                 {
-                    try
-                    {
-                        var symbols = type.ToLower() switch
-                        {
-                            "spot" or "spots" => (dynamic)await client.GetSpotSymbolsAsync(exchange),
-                            "future" or "futures" => (dynamic)await client.GetFuturesSymbolsAsync(exchange),
-                            _ => throw new NotSupportedException($"Unsupported trading type: {type}")
-                        };
-
-                        return symbols != null
-                            ? Results.Ok(new
-                            {
-                                Count = symbols.Length,
-                                Symbols = symbols,
-                            })
-                            : Results.NotFound("Активные торговые пары не найдены");
-                    }
-                    catch (Exception ex)
-                    {
-                        return Results.Problem(
-                            detail: $"Ошибка при получении списка символов: {ex.Message}",
-                            statusCode: StatusCodes.Status500InternalServerError);
-                    }
-                }
-            );
+                    var result = await mediator.Send(new Query(exchange, type));
+                    return Results.Ok(result);
+                })
+                .Produces<ExchangeSymbolsDto>();
         }
     }
 }

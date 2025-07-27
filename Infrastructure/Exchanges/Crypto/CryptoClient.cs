@@ -1,5 +1,4 @@
-﻿using Binance.Net.Objects.Models.Spot.Convert;
-using CryptoClients.Net;
+﻿using CryptoClients.Net;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
@@ -7,7 +6,7 @@ using CryptoExchange.Net.SharedApis;
 
 namespace TradingAssistant.Infrastructure.Exchanges.Crypto
 {
-    internal class CryptoClient : ICryptoClient
+    public class CryptoClient : ICryptoClient
     {
         private readonly IExchangeRestClient _client;
 

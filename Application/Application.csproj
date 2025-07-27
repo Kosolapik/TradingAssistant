@@ -7,6 +7,12 @@
 
 		<RootNamespace>TradingAssistant.Application</RootNamespace>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="DTOs\**" />
+	  <EmbeddedResource Remove="DTOs\**" />
+	  <None Remove="DTOs\**" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\Core\Core.csproj" />
@@ -14,11 +20,13 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="DTOs\" />
-	  <Folder Include="Services\Exchange\Queries\" />
-	  <Folder Include="Services\Exchange\Comands\" />
-	  <Folder Include="Services\App\Comands\" />
-	  <Folder Include="Services\App\Queries\" />
+	  <Folder Include="CQRS\Exchange\Comands\" />
+	  <Folder Include="CQRS\App\Comands\" />
+	  <Folder Include="CQRS\App\Queries\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <PackageReference Include="MediatR" Version="13.0.0" />
 	</ItemGroup>
 
 </Project>
