@@ -1,7 +1,5 @@
-﻿using CryptoClients.Net.Interfaces;
-using CryptoExchange.Net.SharedApis;
+﻿using CryptoExchange.Net.SharedApis;
 using MediatR;
-using TradingAssistant.Application.DTOs;
 using TradingAssistant.Infrastructure.Exchanges.Crypto;
 
 namespace TradingAssistant.Application.CQRS.Admin.Queries.TEST;
