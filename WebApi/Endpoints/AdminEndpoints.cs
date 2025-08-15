@@ -1,6 +1,9 @@
-﻿using MediatR;
+﻿using CryptoExchange.Net.SharedApis;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TradingAssistant.Application.CQRS.Exchange.Queries.GetActiveSymbols;
+using TradingAssistant.Application.DTOs;
+using GetActiveSymbolsQuery = TradingAssistant.Application.CQRS.Admin.Queries.GetActiveSymbols.Query;
+using TestQuery = TradingAssistant.Application.CQRS.Admin.Queries.TEST.Query;
 
 namespace TradingAssistant.WebApi.Endpoints
 {
@@ -10,17 +13,25 @@ namespace TradingAssistant.WebApi.Endpoints
         {
             var adminGroup = app.MapGroup("/admin").WithTags("Admin endpoints");
 
-            adminGroup.MapGet(
-                "/crypto-test/{exchange:alpha}/{type:alpha}",
+            adminGroup.MapGet("/crypto-test/{exchange:alpha}/{type:alpha}",
                 async (
                     [FromServices] IMediator mediator,
                     [FromRoute] string exchange,
-                    [FromRoute] string type) =>
-                {
-                    var result = await mediator.Send(new Query(exchange, type));
+                    [FromRoute] string type
+                ) => {
+                    var result = await mediator.Send(new GetActiveSymbolsQuery(exchange, type));
                     return Results.Ok(result);
-                })
-                .Produces<ExchangeSymbolsDto>();
+                }
+            ).Produces<ExchangeSymbolsDto>();
+
+            adminGroup.MapGet("/test",
+                async (
+                    [FromServices] IMediator mediator
+                ) => {
+                    var result = await mediator.Send(new TestQuery());
+                    return Results.Ok(result);
+                }
+            ).Produces<IEnumerable<IAssetsRestClient>>();
         }
     }
 }

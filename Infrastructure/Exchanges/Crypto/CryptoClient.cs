@@ -8,7 +8,7 @@ namespace TradingAssistant.Infrastructure.Exchanges.Crypto
 {
     public class CryptoClient : ICryptoClient
     {
-        private readonly IExchangeRestClient _client;
+        public readonly IExchangeRestClient _client;
 
         public CryptoClient ()
         {
@@ -26,18 +26,23 @@ namespace TradingAssistant.Infrastructure.Exchanges.Crypto
             );
         }
 
-        public async Task<SharedSpotSymbol[]> GetSpotSymbolsAsync(string exchange)
+        public IExchangeRestClient cl()
+        {
+            return _client;
+        }
+
+        public async Task<IEnumerable<SharedSpotSymbol>> GetSpotSymbolsAsync(string exchange)
         {
             var request = new GetSymbolsRequest(TradingMode.Spot);
             var result = await _client.GetSpotSymbolsAsync(exchange, request);
-            return result.Data.Where(s => s.QuoteAsset == "USDT" && s.Trading == true).ToArray();
+            return result.Data.Where(s => s.QuoteAsset == "USDT" && s.Trading == true);
         }
 
-        public async Task<SharedFuturesSymbol[]> GetFuturesSymbolsAsync(string exchange)
+        public async Task<IEnumerable<SharedFuturesSymbol>> GetFuturesSymbolsAsync(string exchange)
         {
             var request = new GetSymbolsRequest(TradingMode.PerpetualLinear);
             var result = await _client.GetFuturesSymbolsAsync(exchange, request);
-            return result.Data.Where(s => s.QuoteAsset == "USDT" && s.Trading == true).ToArray();
+            return result.Data.Where(s => s.QuoteAsset == "USDT" && s.Trading == true);
         }
     }
 }

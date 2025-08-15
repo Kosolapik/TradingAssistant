@@ -32,6 +32,11 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="DataBase\MySQL\Migrations\" />
+	  <Folder Include="DataBase\MySQL\Repositories\" />
+	</ItemGroup>
+
 	<!-- Явно добавляем папку, если нужно -->
 
 </Project>

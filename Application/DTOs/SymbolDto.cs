@@ -1,6 +1,6 @@
 ﻿using TradingAssistant.Core.Entities;
 
-namespace TradingAssistant.Application.CQRS.Exchange.Queries.GetActiveSymbols;
+namespace TradingAssistant.Application.DTOs;
 
 public record SymbolDto(
     int Id,
@@ -42,6 +42,7 @@ public record SymbolDto(
         entity.ContractSize,
         entity.DeliveryTime,
         entity.MaxShortLeverage,
-        entity.MaxLongLeverage);
+        entity.MaxLongLeverage
+    );
 }
 

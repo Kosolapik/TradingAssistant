@@ -4,7 +4,7 @@ using TradingAssistant.WebApi.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Добавляем сервисы Infrastructure (БД)
+// Добавляем сервисы Applicarion
 builder.Services.AddApplication();
 
 // Настройка OpenAPI/Swagger

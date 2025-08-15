@@ -1,3 +1,3 @@
-﻿namespace TradingAssistant.Application.CQRS.Exchange.Queries.GetActiveSymbols;
+﻿namespace TradingAssistant.Application.DTOs;
 
 public record ExchangeSymbolsDto(int Count, IReadOnlyCollection<SymbolDto> Symbols);

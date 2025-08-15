@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TradingAssistant.Application.CQRS.Exchange.Queries.GetActiveSymbols;
+using System.Reflection;
 using TradingAssistant.Infrastructure;
 
 namespace TradingAssistant.Application;
@@ -12,7 +12,7 @@ public static class DependencyInjection
     {
         services.AddInfrastructure();
 
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Query).Assembly));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         return services;
     }

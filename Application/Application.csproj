@@ -7,12 +7,6 @@
 
 		<RootNamespace>TradingAssistant.Application</RootNamespace>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="DTOs\**" />
-	  <EmbeddedResource Remove="DTOs\**" />
-	  <None Remove="DTOs\**" />
-	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\Core\Core.csproj" />
@@ -20,9 +14,9 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="CQRS\Exchange\Comands\" />
-	  <Folder Include="CQRS\App\Comands\" />
-	  <Folder Include="CQRS\App\Queries\" />
+	  <Folder Include="CQRS\Admin\Comands\" />
+	  <Folder Include="CQRS\User\Comands\" />
+	  <Folder Include="CQRS\User\Queries\" />
 	</ItemGroup>
 	
 	<ItemGroup>

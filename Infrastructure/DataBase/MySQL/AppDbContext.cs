@@ -54,11 +54,11 @@ public class AppDbContext : DbContext
 
             // Seed данные
             entity.HasData(
-                new MarketType { Id = 1, Type = "Spot", Description = "Spot trading" },
-                new MarketType { Id = 2, Type = "PerpetualLinear", Description = "Linear perpetual contracts" },
-                new MarketType { Id = 3, Type = "DeliveryLinear", Description = "Linear delivery contracts" },
-                new MarketType { Id = 4, Type = "PerpetualInverse", Description = "Inverse perpetual contracts" },
-                new MarketType { Id = 5, Type = "DeliveryInverse", Description = "Inverse delivery contracts" }
+                new MarketType { Id = 1, Type = "Spot", Description = "Спотовая торговля" },
+                new MarketType { Id = 2, Type = "PerpetualLinear", Description = "Линейные бессрочные контракты" },
+                new MarketType { Id = 3, Type = "DeliveryLinear", Description = "Линейные контракты с датой" },
+                new MarketType { Id = 4, Type = "PerpetualInverse", Description = "Обратные бессрочные контракты" },
+                new MarketType { Id = 5, Type = "DeliveryInverse", Description = "Обратные контракты с датой" }
             );
         });
 
