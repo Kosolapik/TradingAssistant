@@ -1,7 +1,6 @@
 ﻿using CryptoExchange.Net.SharedApis;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TradingAssistant.Application.DTOs;
 using GetActiveSymbolsQuery = TradingAssistant.Application.CQRS.Admin.Queries.GetActiveSymbols.Query;
 using TestQuery = TradingAssistant.Application.CQRS.Admin.Queries.TEST.Query;
 
@@ -22,7 +21,7 @@ namespace TradingAssistant.WebApi.Endpoints
                     var result = await mediator.Send(new GetActiveSymbolsQuery(exchange, type));
                     return Results.Ok(result);
                 }
-            ).Produces<ExchangeSymbolsDto>();
+            ).Produces<IEnumerable<SharedSpotSymbol>>();
 
             adminGroup.MapGet("/test",
                 async (

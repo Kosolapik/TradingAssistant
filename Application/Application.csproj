@@ -17,6 +17,7 @@
 	  <Folder Include="CQRS\Admin\Comands\" />
 	  <Folder Include="CQRS\User\Comands\" />
 	  <Folder Include="CQRS\User\Queries\" />
+	  <Folder Include="DTOs\" />
 	</ItemGroup>
 	
 	<ItemGroup>
