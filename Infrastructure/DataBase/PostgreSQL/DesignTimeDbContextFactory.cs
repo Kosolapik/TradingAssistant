@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL;
 
-public class PostgreSqlDesignTimeDbContextFactory : IDesignTimeDbContextFactory<PostgreSqlDbContext>
+public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<PostgreSqlDbContext>
 {
     public PostgreSqlDbContext CreateDbContext(string[] args)
     {
