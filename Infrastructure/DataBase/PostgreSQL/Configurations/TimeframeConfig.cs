@@ -2,16 +2,18 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TradingAssistant.Core.Entities.Exchanges;
 
-namespace TradingAssistant.Infrastructure.DataBase.MySQL.Configurations;
+namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Configurations;
 
 public class TimeframeConfig : IEntityTypeConfiguration<Timeframe>
 {
     public void Configure(EntityTypeBuilder<Timeframe> builder)
     {
-        builder.ToTable("Timeframes");
+        builder.ToTable("timeframes");
 
         builder.HasKey(t => t.Id);
-        builder.Property(t => t.Id).ValueGeneratedOnAdd();
+        builder.Property(t => t.Id)
+              .ValueGeneratedOnAdd()
+              .UseIdentityAlwaysColumn();
 
         builder.Property(t => t.Value)
               .IsRequired()
@@ -19,13 +21,13 @@ public class TimeframeConfig : IEntityTypeConfiguration<Timeframe>
               .HasColumnName("value");
 
         builder.Property(t => t.Unit)
-              .HasConversion<string>() // Для работы с enum в коде
-              .HasColumnType(Timeframe.GetStringJoinEnumMySql()) // MySQL ENUM тип
+              .HasConversion<string>() // Хранится как строка
+              .HasMaxLength(10) // Ограничение длины
               .IsRequired()
               .HasColumnName("unit");
 
         builder.Property(t => t.CreatedAt)
-              .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
+              .HasDefaultValueSql("CURRENT_TIMESTAMP")
               .HasColumnName("created_at");
 
         builder.Property(t => t.UpdatedAt)
@@ -34,7 +36,7 @@ public class TimeframeConfig : IEntityTypeConfiguration<Timeframe>
         // Индексы
         builder.HasIndex(t => new { t.Value, t.Unit })
               .IsUnique()
-              .HasDatabaseName("UX_Timeframes_UniqueComposite");
+              .HasDatabaseName("ux_timeframes_unique");
 
         builder.HasComment("Таймфреймы");
     }

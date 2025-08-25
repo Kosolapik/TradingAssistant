@@ -2,16 +2,18 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TradingAssistant.Core.Entities.Exchanges;
 
-namespace TradingAssistant.Infrastructure.DataBase.MySQL.Configurations;
+namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Configurations;
 
 public class TradingInstrumentConfig : IEntityTypeConfiguration<TradingInstrument>
 {
     public void Configure(EntityTypeBuilder<TradingInstrument> builder)
     {
-        builder.ToTable("TradingInstruments");
+        builder.ToTable("trading_instruments"); // snake_case
 
         builder.HasKey(ti => ti.Id);
-        builder.Property(ti => ti.Id).ValueGeneratedOnAdd();
+        builder.Property(ti => ti.Id)
+              .ValueGeneratedOnAdd()
+              .UseIdentityAlwaysColumn();
 
         builder.Property(ti => ti.Code)
               .IsRequired()
@@ -19,7 +21,7 @@ public class TradingInstrumentConfig : IEntityTypeConfiguration<TradingInstrumen
               .HasColumnName("code");
 
         builder.Property(ti => ti.IsActive)
-              .HasColumnType("tinyint(1)")
+              .HasColumnType("boolean") // PostgreSQL boolean
               .HasDefaultValue(true)
               .HasColumnName("is_active");
 
@@ -28,7 +30,7 @@ public class TradingInstrumentConfig : IEntityTypeConfiguration<TradingInstrumen
               .HasColumnName("description");
 
         builder.Property(ti => ti.CreatedAt)
-              .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
+              .HasDefaultValueSql("CURRENT_TIMESTAMP")
               .HasColumnName("created_at");
 
         builder.Property(ti => ti.UpdatedAt)
@@ -55,42 +57,32 @@ public class TradingInstrumentConfig : IEntityTypeConfiguration<TradingInstrumen
               .HasForeignKey(ti => ti.InstrumentTypeId)
               .OnDelete(DeleteBehavior.Restrict);
 
-        // Индексы
-        // ОСНОВНОЙ УНИКАЛЬНЫЙ ИНДЕКС
+        // Основной уникальный индекс
         builder.HasIndex(ti => new { ti.BaseAssetId, ti.QuoteAssetId, ti.ExchangeId, ti.InstrumentTypeId })
               .IsUnique()
-              .HasDatabaseName("UX_TradingInstruments_UniqueComposite");
+              .HasDatabaseName("ux_trading_instruments_unique");
 
-        // ИНДЕКСЫ ДЛЯ ЧАСТЫХ ЗАПРОСОВ:
-
-        // 1. Для: ti.ExchangeId, ti.InstrumentTypeId
+        // Дополнительные индексы (обновляем имена)
         builder.HasIndex(ti => new { ti.ExchangeId, ti.InstrumentTypeId })
-              .HasDatabaseName("IX_TradingInstruments_ExchangeId_InstrumentTypeId");
+              .HasDatabaseName("ix_trading_instruments_exchange_instrument");
 
-        // 2. Для: ti.ExchangeId, ti.InstrumentTypeId, ti.QuoteAssetId  
         builder.HasIndex(ti => new { ti.ExchangeId, ti.InstrumentTypeId, ti.QuoteAssetId })
-              .HasDatabaseName("IX_TradingInstruments_ExchangeId_InstrumentTypeId_QuoteAssetId");
+              .HasDatabaseName("ix_trading_instruments_exchange_instrument_quote");
 
-        // 3. Для: ti.ExchangeId, ti.BaseAssetId, ti.QuoteAssetId
         builder.HasIndex(ti => new { ti.ExchangeId, ti.BaseAssetId, ti.QuoteAssetId })
-              .HasDatabaseName("IX_TradingInstruments_ExchangeId_BaseAssetId_QuoteAssetId");
+              .HasDatabaseName("ix_trading_instruments_exchange_base_quote");
 
-        // 4. Для: ti.BaseAssetId, ti.QuoteAssetId
         builder.HasIndex(ti => new { ti.BaseAssetId, ti.QuoteAssetId })
-              .HasDatabaseName("IX_TradingInstruments_BaseAssetId_QuoteAssetId");
+              .HasDatabaseName("ix_trading_instruments_base_quote");
 
-        // 5. Для: ti.BaseAssetId, ti.QuoteAssetId, ti.InstrumentTypeId
         builder.HasIndex(ti => new { ti.BaseAssetId, ti.QuoteAssetId, ti.InstrumentTypeId })
-              .HasDatabaseName("IX_TradingInstruments_BaseAssetId_QuoteAssetId_InstrumentTypeId");
+              .HasDatabaseName("ix_trading_instruments_base_quote_instrument");
 
-        // 6. Индекс для поиска по коду
         builder.HasIndex(ti => ti.Code)
-              .HasDatabaseName("IX_TradingInstruments_Code");
+              .HasDatabaseName("ix_trading_instruments_code");
 
-        // 7. Индекс для фильтрации по активности (опционально)
         builder.HasIndex(ti => new { ti.IsActive, ti.ExchangeId })
-              .HasDatabaseName("IX_TradingInstruments_IsActive_ExchangeId")
-              .HasFilter("is_active = 1");
+              .HasDatabaseName("ix_trading_instruments_active_exchange");
 
         builder.HasComment("Торговые инструменты");
     }

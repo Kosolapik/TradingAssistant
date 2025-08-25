@@ -22,19 +22,24 @@
 		<PackageReference Include="Bybit.Net" Version="5.4.0" />
 		<PackageReference Include="CryptoClients.Net" Version="3.3.0" />
 		<PackageReference Include="CryptoExchange.Net" Version="9.3.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.7" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.7" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.1">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-beta.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="DataBase\MySQL\Migrations\" />
-	  <Folder Include="DataBase\MySQL\Repositories\" />
+	  <Folder Include="DataBase\PostgreSQL\Migrations\" />
 	</ItemGroup>
 
 	<!-- Явно добавляем папку, если нужно -->

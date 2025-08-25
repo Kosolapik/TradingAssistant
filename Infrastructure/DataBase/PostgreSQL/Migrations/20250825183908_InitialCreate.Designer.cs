@@ -4,14 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TradingAssistant.Infrastructure.DataBase.MySQL;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using TradingAssistant.Infrastructure.DataBase.PostgreSQL;
 
 #nullable disable
 
-namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
+namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20250821163221_InitialCreate")]
+    [DbContext(typeof(PostgreSqlDbContext))]
+    [Migration("20250825183908_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -19,11 +20,11 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseCollation("utf8mb4_unicode_ci")
-                .HasAnnotation("ProductVersion", "8.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .UseCollation("en_US.utf8")
+                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("TradingAssistant.Core.Entities.Exchanges.Asset", b =>
                 {
@@ -31,34 +32,36 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Id"));
+
                     b.Property<int>("AssetTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("description");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
@@ -67,9 +70,9 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
 
                     b.HasIndex("Code")
                         .IsUnique()
-                        .HasDatabaseName("IX_Assets_Code");
+                        .HasDatabaseName("ix_assets_code");
 
-                    b.ToTable("Assets", null, t =>
+                    b.ToTable("assets", null, t =>
                         {
                             t.HasComment("Активы");
                         });
@@ -79,27 +82,29 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("description");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
@@ -118,21 +123,21 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         {
                             Id = 1,
                             Code = "CRYPTO",
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5174),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cryptocurrency"
                         },
                         new
                         {
                             Id = 2,
                             Code = "FIAT",
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5176),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Fiat currency"
                         },
                         new
                         {
                             Id = 3,
                             Code = "STOCK",
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5178),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Stock"
                         });
                 });
@@ -141,27 +146,29 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("description");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
@@ -182,39 +189,42 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Id"));
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("DataType")
                         .IsRequired()
-                        .HasColumnType("ENUM('Decimal','Integer','Boolean','String','DateTime')")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("data_type");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("description");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Code")
                         .IsUnique()
-                        .HasDatabaseName("IX_InstrumentProperties_Code");
+                        .HasDatabaseName("ix_instrument_properties_code");
 
-                    b.ToTable("InstrumentProperties", null, t =>
+                    b.ToTable("instrument_properties", null, t =>
                         {
                             t.HasComment("Свойства инструментов");
                         });
@@ -226,30 +236,32 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Id"));
+
                     b.Property<bool?>("BooleanValue")
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasColumnName("boolean_value");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<DateTime?>("DateTimeValue")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("datetime_value");
 
                     b.Property<decimal?>("DecimalValue")
                         .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)")
+                        .HasColumnType("numeric(18,8)")
                         .HasColumnName("decimal_value");
 
                     b.Property<long>("InstrumentId")
                         .HasColumnType("bigint");
 
                     b.Property<int?>("IntegerValue")
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("integer_value");
 
                     b.Property<long?>("PossibleValueId")
@@ -260,11 +272,11 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
 
                     b.Property<string>("StringValue")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("string_value");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
@@ -273,11 +285,11 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
 
                     b.HasIndex("PropertyId");
 
-                    b.HasIndex("InstrumentId", "PropertyId", "PossibleValueId")
+                    b.HasIndex("InstrumentId", "PropertyId")
                         .IsUnique()
-                        .HasDatabaseName("UX_InstrumentPropertyValues_UniqueComposite");
+                        .HasDatabaseName("ux_instrument_property_values_unique");
 
-                    b.ToTable("InstrumentPropertyValues", null, t =>
+                    b.ToTable("instrument_property_values", null, t =>
                         {
                             t.HasComment("Значения свойств инструментов");
                         });
@@ -287,27 +299,29 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("description");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
@@ -326,21 +340,21 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         {
                             Id = 1,
                             Code = "SPOT",
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5474),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Spot trading"
                         },
                         new
                         {
                             Id = 2,
                             Code = "PERPETUAL",
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5476),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Perpetual futures"
                         },
                         new
                         {
                             Id = 3,
                             Code = "DELIVERY",
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5478),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Delivery futures"
                         });
                 });
@@ -351,20 +365,22 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Id"));
+
                     b.Property<decimal>("Close")
                         .HasPrecision(28, 8)
-                        .HasColumnType("decimal(28,8)")
+                        .HasColumnType("numeric(28,8)")
                         .HasColumnName("close");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<decimal>("High")
                         .HasPrecision(28, 8)
-                        .HasColumnType("decimal(28,8)")
+                        .HasColumnType("numeric(28,8)")
                         .HasColumnName("high");
 
                     b.Property<long>("InstrumentId")
@@ -372,39 +388,42 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
 
                     b.Property<decimal>("Low")
                         .HasPrecision(28, 8)
-                        .HasColumnType("decimal(28,8)")
+                        .HasColumnType("numeric(28,8)")
                         .HasColumnName("low");
 
                     b.Property<decimal>("Open")
                         .HasPrecision(28, 8)
-                        .HasColumnType("decimal(28,8)")
+                        .HasColumnType("numeric(28,8)")
                         .HasColumnName("open");
 
                     b.Property<int>("TimeframeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("timestamp");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.Property<decimal>("Volume")
                         .HasPrecision(36, 18)
-                        .HasColumnType("decimal(36,18)")
+                        .HasColumnType("numeric(36,18)")
                         .HasColumnName("volume");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TimeframeId");
 
+                    b.HasIndex("Timestamp")
+                        .HasDatabaseName("ix_ohlcv_data_timestamp");
+
                     b.HasIndex("InstrumentId", "TimeframeId", "Timestamp")
                         .IsUnique()
-                        .HasDatabaseName("UX_OHLCV_UniqueComposite");
+                        .HasDatabaseName("ux_ohlcv_data_unique");
 
-                    b.ToTable("OHLCV", null, t =>
+                    b.ToTable("ohlcv_data", null, t =>
                         {
                             t.HasComment("OHLCV данные");
                         });
@@ -416,20 +435,22 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("description");
 
                     b.Property<int>("NumericValue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasDefaultValue(0)
                         .HasColumnName("numeric_value");
 
@@ -437,13 +458,13 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("value");
 
                     b.HasKey("Id");
@@ -462,36 +483,39 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Unit")
                         .IsRequired()
-                        .HasColumnType("ENUM('TICK','SECOND','MINUTE','HOUR','DAY','WEEK','MONTH','YEAR')")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
                         .HasColumnName("unit");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("varchar(10)")
+                        .HasColumnType("character varying(10)")
                         .HasColumnName("value");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Value", "Unit")
                         .IsUnique()
-                        .HasDatabaseName("UX_Timeframes_UniqueComposite");
+                        .HasDatabaseName("ux_timeframes_unique");
 
-                    b.ToTable("Timeframes", null, t =>
+                    b.ToTable("timeframes", null, t =>
                         {
                             t.HasComment("Таймфреймы");
                         });
@@ -500,42 +524,42 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5533),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Unit = "MINUTE",
                             Value = "1"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5536),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Unit = "MINUTE",
                             Value = "5"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5538),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Unit = "MINUTE",
                             Value = "15"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5540),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Unit = "HOUR",
                             Value = "1"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5542),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Unit = "HOUR",
                             Value = "4"
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2025, 8, 21, 16, 32, 21, 215, DateTimeKind.Utc).AddTicks(5544),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Unit = "DAY",
                             Value = "1"
                         });
@@ -547,35 +571,37 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Id"));
+
                     b.Property<long>("BaseAssetId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("description");
 
                     b.Property<int>("ExchangeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("InstrumentTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
+                        .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("is_active");
 
@@ -583,42 +609,41 @@ namespace TradingAssistant.Infrastructure.DataBase.MySQL.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Code")
-                        .HasDatabaseName("IX_TradingInstruments_Code");
+                        .HasDatabaseName("ix_trading_instruments_code");
 
                     b.HasIndex("InstrumentTypeId");
 
                     b.HasIndex("QuoteAssetId");
 
                     b.HasIndex("BaseAssetId", "QuoteAssetId")
-                        .HasDatabaseName("IX_TradingInstruments_BaseAssetId_QuoteAssetId");
+                        .HasDatabaseName("ix_trading_instruments_base_quote");
 
                     b.HasIndex("ExchangeId", "InstrumentTypeId")
-                        .HasDatabaseName("IX_TradingInstruments_ExchangeId_InstrumentTypeId");
+                        .HasDatabaseName("ix_trading_instruments_exchange_instrument");
 
                     b.HasIndex("IsActive", "ExchangeId")
-                        .HasDatabaseName("IX_TradingInstruments_IsActive_ExchangeId")
-                        .HasFilter("is_active = 1");
+                        .HasDatabaseName("ix_trading_instruments_active_exchange");
 
                     b.HasIndex("BaseAssetId", "QuoteAssetId", "InstrumentTypeId")
-                        .HasDatabaseName("IX_TradingInstruments_BaseAssetId_QuoteAssetId_InstrumentTypeId");
+                        .HasDatabaseName("ix_trading_instruments_base_quote_instrument");
 
                     b.HasIndex("ExchangeId", "BaseAssetId", "QuoteAssetId")
-                        .HasDatabaseName("IX_TradingInstruments_ExchangeId_BaseAssetId_QuoteAssetId");
+                        .HasDatabaseName("ix_trading_instruments_exchange_base_quote");
 
                     b.HasIndex("ExchangeId", "InstrumentTypeId", "QuoteAssetId")
-                        .HasDatabaseName("IX_TradingInstruments_ExchangeId_InstrumentTypeId_QuoteAssetId");
+                        .HasDatabaseName("ix_trading_instruments_exchange_instrument_quote");
 
                     b.HasIndex("BaseAssetId", "QuoteAssetId", "ExchangeId", "InstrumentTypeId")
                         .IsUnique()
-                        .HasDatabaseName("UX_TradingInstruments_UniqueComposite");
+                        .HasDatabaseName("ux_trading_instruments_unique");
 
-                    b.ToTable("TradingInstruments", null, t =>
+                    b.ToTable("trading_instruments", null, t =>
                         {
                             t.HasComment("Торговые инструменты");
                         });

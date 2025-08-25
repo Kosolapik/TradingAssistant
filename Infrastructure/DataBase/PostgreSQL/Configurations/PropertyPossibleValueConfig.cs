@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TradingAssistant.Core.Entities.Exchanges;
 
-namespace TradingAssistant.Infrastructure.DataBase.MySQL.Configurations;
+namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Configurations;
 
 public class PropertyPossibleValueConfig : IEntityTypeConfiguration<PropertyPossibleValue>
 {

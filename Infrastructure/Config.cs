@@ -14,16 +14,14 @@ internal static class Config
             .Build();
     }
 
-    public static string ConnectionStringMySQL()
+    public static string ConnectionStringPostgreSQL()
     {
-        var connectionString = _config.Value["DatabaseConnections:MySQL"];
+        var connectionString = _config.Value["DatabaseConnections:PostgreSQL"];
 
         if (string.IsNullOrWhiteSpace(connectionString))
             throw new InvalidOperationException("Database connection string is not configured");
 
         return connectionString;
     }
-
-
 }
 

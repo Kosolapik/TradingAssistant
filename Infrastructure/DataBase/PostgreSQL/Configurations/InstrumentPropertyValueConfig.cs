@@ -2,20 +2,23 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TradingAssistant.Core.Entities.Exchanges;
 
-namespace TradingAssistant.Infrastructure.DataBase.MySQL.Configurations;
+namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Configurations;
 
 public class InstrumentPropertyValueConfig : IEntityTypeConfiguration<InstrumentPropertyValue>
 {
     public void Configure(EntityTypeBuilder<InstrumentPropertyValue> builder)
     {
-        builder.ToTable("InstrumentPropertyValues");
+        builder.ToTable("instrument_property_values");
 
         builder.HasKey(ipv => ipv.Id);
-        builder.Property(ipv => ipv.Id).ValueGeneratedOnAdd();
+        builder.Property(ipv => ipv.Id)
+              .ValueGeneratedOnAdd()
+              .UseIdentityAlwaysColumn();
 
-        // Настройка точности
+        // Настройка точности с явным указанием типа
         builder.Property(ipv => ipv.DecimalValue)
               .HasPrecision(18, 8)
+              .HasColumnType("numeric(18,8)") // Явный тип для PostgreSQL
               .HasColumnName("decimal_value");
 
         builder.Property(ipv => ipv.IntegerValue)
@@ -26,14 +29,15 @@ public class InstrumentPropertyValueConfig : IEntityTypeConfiguration<Instrument
               .HasColumnName("string_value");
 
         builder.Property(ipv => ipv.BooleanValue)
-              .HasColumnType("tinyint(1)")
+              .HasColumnType("boolean") // PostgreSQL boolean
               .HasColumnName("boolean_value");
 
         builder.Property(ipv => ipv.DateTimeValue)
+              .HasColumnType("timestamp with time zone") // Для временных зон
               .HasColumnName("datetime_value");
 
         builder.Property(ipv => ipv.CreatedAt)
-              .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
+              .HasDefaultValueSql("CURRENT_TIMESTAMP")
               .HasColumnName("created_at");
 
         builder.Property(ipv => ipv.UpdatedAt)
@@ -55,10 +59,10 @@ public class InstrumentPropertyValueConfig : IEntityTypeConfiguration<Instrument
               .HasForeignKey(ipv => ipv.PossibleValueId)
               .OnDelete(DeleteBehavior.SetNull);
 
-        // Индексы
-        builder.HasIndex(ipv => new { ipv.InstrumentId, ipv.PropertyId, ipv.PossibleValueId })
+        // Уникальный индекс (без possible_value_id, т.к. он nullable)
+        builder.HasIndex(ipv => new { ipv.InstrumentId, ipv.PropertyId })
               .IsUnique()
-              .HasDatabaseName("UX_InstrumentPropertyValues_UniqueComposite");
+              .HasDatabaseName("ux_instrument_property_values_unique");
 
         builder.HasComment("Значения свойств инструментов");
     }

@@ -2,16 +2,18 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TradingAssistant.Core.Entities.Exchanges;
 
-namespace TradingAssistant.Infrastructure.DataBase.MySQL.Configurations;
+namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Configurations;
 
 public class InstrumentPropertyConfig : IEntityTypeConfiguration<InstrumentProperty>
 {
     public void Configure(EntityTypeBuilder<InstrumentProperty> builder)
     {
-        builder.ToTable("InstrumentProperties");
+        builder.ToTable("instrument_properties"); // snake_case
 
         builder.HasKey(ip => ip.Id);
-        builder.Property(ip => ip.Id).ValueGeneratedOnAdd();
+        builder.Property(ip => ip.Id)
+              .ValueGeneratedOnAdd()
+              .UseIdentityAlwaysColumn();
 
         builder.Property(ip => ip.Code)
               .IsRequired()
@@ -19,8 +21,8 @@ public class InstrumentPropertyConfig : IEntityTypeConfiguration<InstrumentPrope
               .HasColumnName("code");
 
         builder.Property(ip => ip.DataType)
-              .HasConversion<string>() // Для работы с enum в коде
-              .HasColumnType(InstrumentProperty.GetStringJoinEnumMySql()) // MySQL ENUM тип
+              .HasConversion<string>() // Хранится как строка
+              .HasMaxLength(20) // Ограничение длины
               .IsRequired()
               .HasColumnName("data_type");
 
@@ -29,7 +31,7 @@ public class InstrumentPropertyConfig : IEntityTypeConfiguration<InstrumentPrope
               .HasColumnName("description");
 
         builder.Property(ip => ip.CreatedAt)
-              .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
+              .HasDefaultValueSql("CURRENT_TIMESTAMP")
               .HasColumnName("created_at");
 
         builder.Property(ip => ip.UpdatedAt)
@@ -38,7 +40,7 @@ public class InstrumentPropertyConfig : IEntityTypeConfiguration<InstrumentPrope
         // Индексы
         builder.HasIndex(ip => ip.Code)
               .IsUnique()
-              .HasDatabaseName("IX_InstrumentProperties_Code");
+              .HasDatabaseName("ix_instrument_properties_code");
 
         builder.HasComment("Свойства инструментов");
     }

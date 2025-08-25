@@ -2,16 +2,18 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TradingAssistant.Core.Entities.Exchanges;
 
-namespace TradingAssistant.Infrastructure.DataBase.MySQL.Configurations;
+namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Configurations;
 
 public class AssetConfig : IEntityTypeConfiguration<Asset>
 {
     public void Configure(EntityTypeBuilder<Asset> builder)
     {
-        builder.ToTable("Assets");
+        builder.ToTable("assets"); // lowercase для PostgreSQL
 
         builder.HasKey(a => a.Id);
-        builder.Property(a => a.Id).ValueGeneratedOnAdd();
+        builder.Property(a => a.Id)
+              .ValueGeneratedOnAdd()
+              .UseIdentityAlwaysColumn(); // Для PostgreSQL
 
         builder.Property(a => a.Code)
               .IsRequired()
@@ -19,7 +21,7 @@ public class AssetConfig : IEntityTypeConfiguration<Asset>
               .HasColumnName("code");
 
         builder.Property(a => a.IsActive)
-              .HasColumnType("tinyint(1)")
+              .HasColumnType("boolean") // PostgreSQL boolean
               .HasDefaultValue(true)
               .HasColumnName("is_active");
 
@@ -28,7 +30,7 @@ public class AssetConfig : IEntityTypeConfiguration<Asset>
               .HasColumnName("description");
 
         builder.Property(a => a.CreatedAt)
-              .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
+              .HasDefaultValueSql("CURRENT_TIMESTAMP") // Без (6)
               .HasColumnName("created_at");
 
         builder.Property(a => a.UpdatedAt)
@@ -43,7 +45,7 @@ public class AssetConfig : IEntityTypeConfiguration<Asset>
         // Индексы
         builder.HasIndex(a => a.Code)
               .IsUnique()
-              .HasDatabaseName("IX_Assets_Code");
+              .HasDatabaseName("ix_assets_code"); // lowercase
 
         builder.HasComment("Активы");
     }
