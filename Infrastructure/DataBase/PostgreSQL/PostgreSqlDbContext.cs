@@ -63,26 +63,27 @@ public class PostgreSqlDbContext : DbContext
     {
         // Фиксированные даты для seed данных
         var seedDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        var currentDate = DateTime.UtcNow;
 
         modelBuilder.Entity<AssetType>().HasData(
-            new AssetType { Id = 1, Code = "CRYPTO", Description = "Cryptocurrency", CreatedAt = seedDate },
-            new AssetType { Id = 2, Code = "FIAT", Description = "Fiat currency", CreatedAt = seedDate },
-            new AssetType { Id = 3, Code = "STOCK", Description = "Stock", CreatedAt = seedDate }
+            new AssetType { Id = 1, Code = "CRYPTO", Description = "Cryptocurrency", CreatedAt = currentDate },
+            new AssetType { Id = 2, Code = "FIAT", Description = "Fiat currency", CreatedAt = currentDate },
+            new AssetType { Id = 3, Code = "STOCK", Description = "Stock", CreatedAt = currentDate }
         );
 
         modelBuilder.Entity<InstrumentType>().HasData(
-            new InstrumentType { Id = 1, Code = "SPOT", Description = "Spot trading", CreatedAt = seedDate },
-            new InstrumentType { Id = 2, Code = "PERPETUAL", Description = "Perpetual futures", CreatedAt = seedDate },
-            new InstrumentType { Id = 3, Code = "DELIVERY", Description = "Delivery futures", CreatedAt = seedDate }
+            new InstrumentType { Id = 1, Code = "SPOT", Description = "Spot trading", CreatedAt = currentDate },
+            new InstrumentType { Id = 2, Code = "PERPETUAL", Description = "Perpetual futures", CreatedAt = currentDate },
+            new InstrumentType { Id = 3, Code = "DELIVERY", Description = "Delivery futures", CreatedAt = currentDate }
         );
 
         modelBuilder.Entity<Timeframe>().HasData(
-            new Timeframe { Id = 1, Value = "1", Unit = TimeframeUnit.Minute, CreatedAt = seedDate },
-            new Timeframe { Id = 2, Value = "5", Unit = TimeframeUnit.Minute, CreatedAt = seedDate },
-            new Timeframe { Id = 3, Value = "15", Unit = TimeframeUnit.Minute, CreatedAt = seedDate },
-            new Timeframe { Id = 4, Value = "1", Unit = TimeframeUnit.Hour, CreatedAt = seedDate },
-            new Timeframe { Id = 5, Value = "4", Unit = TimeframeUnit.Hour, CreatedAt = seedDate },
-            new Timeframe { Id = 6, Value = "1", Unit = TimeframeUnit.Day, CreatedAt = seedDate }
+            new Timeframe { Id = 1, Value = "1", Unit = TimeframeUnit.Minute, CreatedAt = currentDate },
+            new Timeframe { Id = 2, Value = "5", Unit = TimeframeUnit.Minute, CreatedAt = currentDate },
+            new Timeframe { Id = 3, Value = "15", Unit = TimeframeUnit.Minute, CreatedAt = currentDate },
+            new Timeframe { Id = 4, Value = "1", Unit = TimeframeUnit.Hour, CreatedAt = currentDate },
+            new Timeframe { Id = 5, Value = "4", Unit = TimeframeUnit.Hour, CreatedAt = currentDate },
+            new Timeframe { Id = 6, Value = "1", Unit = TimeframeUnit.Day, CreatedAt = currentDate }
         );
     }
 }

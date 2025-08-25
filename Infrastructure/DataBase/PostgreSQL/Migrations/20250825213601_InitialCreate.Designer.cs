@@ -12,7 +12,7 @@ using TradingAssistant.Infrastructure.DataBase.PostgreSQL;
 namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
 {
     [DbContext(typeof(PostgreSqlDbContext))]
-    [Migration("20250825205729_InitialCreate")]
+    [Migration("20250825213601_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -132,7 +132,7 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                         {
                             Id = 1,
                             Code = "CRYPTO",
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Description = "Cryptocurrency",
                             IsActive = true
                         },
@@ -140,7 +140,7 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                         {
                             Id = 2,
                             Code = "FIAT",
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Description = "Fiat currency",
                             IsActive = true
                         },
@@ -148,7 +148,7 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                         {
                             Id = 3,
                             Code = "STOCK",
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Description = "Stock",
                             IsActive = true
                         });
@@ -369,7 +369,7 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                         {
                             Id = 1,
                             Code = "SPOT",
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Description = "Spot trading",
                             IsActive = true
                         },
@@ -377,7 +377,7 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                         {
                             Id = 2,
                             Code = "PERPETUAL",
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Description = "Perpetual futures",
                             IsActive = true
                         },
@@ -385,7 +385,7 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                         {
                             Id = 3,
                             Code = "DELIVERY",
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Description = "Delivery futures",
                             IsActive = true
                         });
@@ -546,42 +546,42 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Unit = "minute",
                             Value = "1"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Unit = "minute",
                             Value = "5"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Unit = "minute",
                             Value = "15"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Unit = "hour",
                             Value = "1"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Unit = "hour",
                             Value = "4"
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77),
                             Unit = "day",
                             Value = "1"
                         });

@@ -284,9 +284,9 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                 columns: new[] { "Id", "code", "created_at", "description", "is_active", "updated_at" },
                 values: new object[,]
                 {
-                    { 1, "CRYPTO", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Cryptocurrency", true, null },
-                    { 2, "FIAT", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Fiat currency", true, null },
-                    { 3, "STOCK", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Stock", true, null }
+                    { 1, "CRYPTO", new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "Cryptocurrency", true, null },
+                    { 2, "FIAT", new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "Fiat currency", true, null },
+                    { 3, "STOCK", new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "Stock", true, null }
                 });
 
             migrationBuilder.InsertData(
@@ -294,9 +294,9 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                 columns: new[] { "Id", "code", "created_at", "description", "is_active", "updated_at" },
                 values: new object[,]
                 {
-                    { 1, "SPOT", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Spot trading", true, null },
-                    { 2, "PERPETUAL", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Perpetual futures", true, null },
-                    { 3, "DELIVERY", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Delivery futures", true, null }
+                    { 1, "SPOT", new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "Spot trading", true, null },
+                    { 2, "PERPETUAL", new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "Perpetual futures", true, null },
+                    { 3, "DELIVERY", new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "Delivery futures", true, null }
                 });
 
             migrationBuilder.InsertData(
@@ -304,12 +304,12 @@ namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL.Migrations
                 columns: new[] { "Id", "created_at", "unit", "updated_at", "value" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "minute", null, "1" },
-                    { 2, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "minute", null, "5" },
-                    { 3, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "minute", null, "15" },
-                    { 4, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "hour", null, "1" },
-                    { 5, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "hour", null, "4" },
-                    { 6, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "day", null, "1" }
+                    { 1, new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "minute", null, "1" },
+                    { 2, new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "minute", null, "5" },
+                    { 3, new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "minute", null, "15" },
+                    { 4, new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "hour", null, "1" },
+                    { 5, new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "hour", null, "4" },
+                    { 6, new DateTime(2025, 8, 25, 21, 36, 0, 973, DateTimeKind.Utc).AddTicks(77), "day", null, "1" }
                 });
 
             migrationBuilder.CreateIndex(
