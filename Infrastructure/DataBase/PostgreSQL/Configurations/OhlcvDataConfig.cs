@@ -68,9 +68,6 @@ public class OhlcvDataConfig : IEntityTypeConfiguration<OhlcvData>
               .IsUnique()
               .HasDatabaseName("ux_ohlcv_data_unique");
 
-        builder.HasIndex(o => o.Timestamp)
-              .HasDatabaseName("ix_ohlcv_data_timestamp");
-
         builder.HasComment("OHLCV данные");
     }
 }

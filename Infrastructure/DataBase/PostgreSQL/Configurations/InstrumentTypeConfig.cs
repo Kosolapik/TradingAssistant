@@ -14,25 +14,30 @@ public class InstrumentTypeConfig : IEntityTypeConfiguration<InstrumentType>
         builder.Property(it => it.Id).ValueGeneratedOnAdd();
 
         builder.Property(it => it.Code)
-              .IsRequired()
-              .HasMaxLength(255)
-              .HasColumnName("code");
+            .IsRequired()
+            .HasMaxLength(255)
+            .HasColumnName("code");
 
         builder.Property(it => it.Description)
-              .HasMaxLength(255)
-              .HasColumnName("description");
+            .HasMaxLength(255)
+            .HasColumnName("description");
+
+        builder.Property(it => it.IsActive)
+            .HasColumnType("boolean")
+            .HasDefaultValue(true)
+            .HasColumnName("is_active");
 
         builder.Property(it => it.CreatedAt)
-              .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
-              .HasColumnName("created_at");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
+            .HasColumnName("created_at");
 
         builder.Property(it => it.UpdatedAt)
-              .HasColumnName("updated_at");
+            .HasColumnName("updated_at");
 
         // Индексы
         builder.HasIndex(it => it.Code)
-              .IsUnique()
-              .HasDatabaseName("IX_InstrumentTypes_Code");
+            .IsUnique()
+            .HasDatabaseName("IX_InstrumentTypes_Code");
 
         builder.HasComment("Типы инструментов");
     }

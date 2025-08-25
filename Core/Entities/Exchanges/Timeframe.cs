@@ -2,14 +2,14 @@
 
 public enum TimeframeUnit
 {
-    TICK,
-    SECOND,
-    MINUTE,
-    HOUR,
-    DAY,
-    WEEK,
-    MONTH,
-    YEAR
+    Tick,      // Было: tick ❌ (лучше PascalCase)
+    Second,    // Было: second ❌
+    Minute,    // Было: minute ❌
+    Hour,      // Было: hour ❌
+    Day,       // Было: day ❌
+    Week,      // Было: week ❌
+    Month,     // Было: month ❌
+    Year       // Было: year ❌
 }
 
 public class Timeframe

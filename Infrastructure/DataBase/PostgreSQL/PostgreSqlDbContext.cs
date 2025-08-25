@@ -45,6 +45,10 @@ public class PostgreSqlDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Регистрируем enum тип в PostgreSQL
+        modelBuilder.HasPostgresEnum<TimeframeUnit>();
+        modelBuilder.HasPostgresEnum<PropertyDataType>();
+
         // Для PostgreSQL используем стандартную кодировку
         modelBuilder.UseCollation("en_US.utf8");
 
@@ -73,12 +77,12 @@ public class PostgreSqlDbContext : DbContext
         );
 
         modelBuilder.Entity<Timeframe>().HasData(
-            new Timeframe { Id = 1, Value = "1", Unit = TimeframeUnit.MINUTE, CreatedAt = seedDate },
-            new Timeframe { Id = 2, Value = "5", Unit = TimeframeUnit.MINUTE, CreatedAt = seedDate },
-            new Timeframe { Id = 3, Value = "15", Unit = TimeframeUnit.MINUTE, CreatedAt = seedDate },
-            new Timeframe { Id = 4, Value = "1", Unit = TimeframeUnit.HOUR, CreatedAt = seedDate },
-            new Timeframe { Id = 5, Value = "4", Unit = TimeframeUnit.HOUR, CreatedAt = seedDate },
-            new Timeframe { Id = 6, Value = "1", Unit = TimeframeUnit.DAY, CreatedAt = seedDate }
+            new Timeframe { Id = 1, Value = "1", Unit = TimeframeUnit.Minute, CreatedAt = seedDate },
+            new Timeframe { Id = 2, Value = "5", Unit = TimeframeUnit.Minute, CreatedAt = seedDate },
+            new Timeframe { Id = 3, Value = "15", Unit = TimeframeUnit.Minute, CreatedAt = seedDate },
+            new Timeframe { Id = 4, Value = "1", Unit = TimeframeUnit.Hour, CreatedAt = seedDate },
+            new Timeframe { Id = 5, Value = "4", Unit = TimeframeUnit.Hour, CreatedAt = seedDate },
+            new Timeframe { Id = 6, Value = "1", Unit = TimeframeUnit.Day, CreatedAt = seedDate }
         );
     }
 }

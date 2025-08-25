@@ -4,11 +4,11 @@ namespace TradingAssistant.Core.Entities.Exchanges;
 
 public enum PropertyDataType
 {
-    Decimal,
-    Integer,
-    Boolean,
-    String,
-    DateTime
+    DecimalType,    // Было: Decimal ❌
+    IntegerType,    // Было: Integer ❌
+    BooleanType,    // Было: Boolean ❌  
+    StringType,     // Было: String ❌
+    DateTimeType    // Было: DateTime ❌
 }
 
 public class InstrumentProperty
@@ -17,6 +17,7 @@ public class InstrumentProperty
     public string Code { get; set; } = string.Empty;
     public PropertyDataType DataType { get; set; }
     public string? Description { get; set; }
+    public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
 

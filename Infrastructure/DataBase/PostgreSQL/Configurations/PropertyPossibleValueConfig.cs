@@ -14,35 +14,31 @@ public class PropertyPossibleValueConfig : IEntityTypeConfiguration<PropertyPoss
         builder.Property(ppv => ppv.Id).ValueGeneratedOnAdd();
 
         builder.Property(ppv => ppv.Value)
-              .IsRequired()
-              .HasMaxLength(255)
-              .HasColumnName("value");
-
-        builder.Property(ppv => ppv.NumericValue)
-              .HasDefaultValue(0)
-              .HasColumnName("numeric_value");
+            .IsRequired()
+            .HasMaxLength(255)
+            .HasColumnName("value");
 
         builder.Property(ppv => ppv.Description)
-              .HasMaxLength(255)
-              .HasColumnName("description");
+            .HasMaxLength(255)
+            .HasColumnName("description");
 
         builder.Property(ppv => ppv.CreatedAt)
-              .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
-              .HasColumnName("created_at");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
+            .HasColumnName("created_at");
 
         builder.Property(ppv => ppv.UpdatedAt)
-              .HasColumnName("updated_at");
+            .HasColumnName("updated_at");
 
         // Внешний ключ
         builder.HasOne(ppv => ppv.Property)
-              .WithMany(ip => ip.PossibleValues)
-              .HasForeignKey(ppv => ppv.PropertyId)
-              .OnDelete(DeleteBehavior.Cascade);
+            .WithMany(ip => ip.PossibleValues)
+            .HasForeignKey(ppv => ppv.PropertyId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Индексы
         builder.HasIndex(ppv => new { ppv.PropertyId, ppv.Value })
-              .IsUnique()
-              .HasDatabaseName("UX_PropertyPossibleValues_UniqueComposite");
+            .IsUnique()
+            .HasDatabaseName("UX_PropertyPossibleValues_UniqueComposite");
 
         builder.HasComment("Возможные значения свойств");
     }

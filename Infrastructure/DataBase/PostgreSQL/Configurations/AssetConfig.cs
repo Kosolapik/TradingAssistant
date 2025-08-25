@@ -12,40 +12,43 @@ public class AssetConfig : IEntityTypeConfiguration<Asset>
 
         builder.HasKey(a => a.Id);
         builder.Property(a => a.Id)
-              .ValueGeneratedOnAdd()
-              .UseIdentityAlwaysColumn(); // Для PostgreSQL
+            .ValueGeneratedOnAdd()
+            .UseIdentityAlwaysColumn(); // Для PostgreSQL
 
         builder.Property(a => a.Code)
-              .IsRequired()
-              .HasMaxLength(255)
-              .HasColumnName("code");
-
-        builder.Property(a => a.IsActive)
-              .HasColumnType("boolean") // PostgreSQL boolean
-              .HasDefaultValue(true)
-              .HasColumnName("is_active");
+            .IsRequired()
+            .HasMaxLength(255)
+            .HasColumnName("code");
 
         builder.Property(a => a.Description)
-              .HasMaxLength(255)
-              .HasColumnName("description");
+            .HasMaxLength(255)
+            .HasColumnName("description");
+
+        builder.Property(a => a.IsActive)
+            .HasColumnType("boolean")
+            .HasDefaultValue(true)
+            .HasColumnName("is_active");
 
         builder.Property(a => a.CreatedAt)
-              .HasDefaultValueSql("CURRENT_TIMESTAMP") // Без (6)
-              .HasColumnName("created_at");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP") // Без (6)
+            .HasColumnName("created_at");
 
         builder.Property(a => a.UpdatedAt)
-              .HasColumnName("updated_at");
+            .HasColumnName("updated_at");
 
         // Внешний ключ
         builder.HasOne(a => a.AssetType)
-              .WithMany(ac => ac.Assets)
-              .HasForeignKey(a => a.AssetTypeId)
-              .OnDelete(DeleteBehavior.Restrict);
+            .WithMany(ac => ac.Assets)
+            .HasForeignKey(a => a.AssetTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Индексы
         builder.HasIndex(a => a.Code)
-              .IsUnique()
-              .HasDatabaseName("ix_assets_code"); // lowercase
+            .IsUnique()
+            .HasDatabaseName("ix_assets_code"); // lowercase
+
+        builder.HasIndex(a => a.AssetTypeId)
+            .HasDatabaseName("ix_assets_asset_type_id");
 
         builder.HasComment("Активы");
     }

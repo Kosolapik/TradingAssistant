@@ -21,8 +21,11 @@ public class TimeframeConfig : IEntityTypeConfiguration<Timeframe>
               .HasColumnName("value");
 
         builder.Property(t => t.Unit)
-              .HasConversion<string>() // Хранится как строка
-              .HasMaxLength(10) // Ограничение длины
+              .HasConversion(
+                  v => v.ToString().ToLower(), // Enum -> lowercase string
+                  v => (TimeframeUnit)Enum.Parse(typeof(TimeframeUnit), v, true) // string -> Enum (ignore case)
+              )
+              .HasColumnType("timeframe_unit") // Указываем тип БД
               .IsRequired()
               .HasColumnName("unit");
 

@@ -69,15 +69,6 @@ public class TradingInstrumentConfig : IEntityTypeConfiguration<TradingInstrumen
         builder.HasIndex(ti => new { ti.ExchangeId, ti.InstrumentTypeId, ti.QuoteAssetId })
               .HasDatabaseName("ix_trading_instruments_exchange_instrument_quote");
 
-        builder.HasIndex(ti => new { ti.ExchangeId, ti.BaseAssetId, ti.QuoteAssetId })
-              .HasDatabaseName("ix_trading_instruments_exchange_base_quote");
-
-        builder.HasIndex(ti => new { ti.BaseAssetId, ti.QuoteAssetId })
-              .HasDatabaseName("ix_trading_instruments_base_quote");
-
-        builder.HasIndex(ti => new { ti.BaseAssetId, ti.QuoteAssetId, ti.InstrumentTypeId })
-              .HasDatabaseName("ix_trading_instruments_base_quote_instrument");
-
         builder.HasIndex(ti => ti.Code)
               .HasDatabaseName("ix_trading_instruments_code");
 
