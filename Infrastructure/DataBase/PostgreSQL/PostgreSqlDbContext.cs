@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 using TradingAssistant.Core.Entities.Exchanges;
 
 namespace TradingAssistant.Infrastructure.DataBase.PostgreSQL;
